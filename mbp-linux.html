@@ -57,12 +57,12 @@
   <h3>
     Debian 13: login in text mode
   </h3>
-  <p>I still prefer to boot in text terminal and only later, if needed, to move to a graphical interface. Moreover I prefer to choice which desktop environment or window manager to use every time.</p>
+  <p>I still prefer to login in text terminal and only later, if needed, to move to a graphical interface. Moreover I prefer to choice which desktop environment or window manager to use every time. Sometimes I prefer a more comfortable graphical environment, other a more minimalist and essential with no distractions.</p>
   <p>
 	To do so, I've installed Debian 13 without selecting any desktop environment and without installing X.org, this to ensure to login in text mode.
 	Then I've installed X.org manually and all the window manager and desktop environment I would like to use: fvwm2, OpenStep, XFCE4, etc.
   </p>  
-  <p>To ensure that the os always start in text mode I've run the following command:</p>
+  <p>To ensure that linux always start in text mode I've run the following command:</p>
   <code>sudo systemctl set-default multi-user.target</code>
   <p>which creates a symbolic link for <tt> /etc/systemd/system/default.target </tt> to <tt> multi-user.target </tt> instead to <tt> graphical.target </tt></p>
   
