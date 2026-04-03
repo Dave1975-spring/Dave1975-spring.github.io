@@ -46,11 +46,25 @@
   <hr>
   
   <h3>
-    The choice of Linux distribution: Debian 13  
+    The choice of Linux distribution: Debian 13 <img src="./debian-swirl.png" alt="debian logo"> 
   </h3>
   <p>
     Due to the hardware specs of the MacBook Pro, a "minimal" Linux distribution has to be chosen. Some I've tried and have worked are: Sparky Linux, MX Linux, antiX, BunsenLab. There are many others that would work great as well. Then final choice was a basic "plain" installation of Debain 13. Debian, because I'm used to it, I know already how to deal with it. A "plain" installation, and not a specific one or a derivated, because I wanted to "build" and custom a bit according to my preferences.
   </p>
+  
+  <hr>
+  
+  <h3>
+    Debian 13: login in text mode
+  </h3>
+  <p>I still prefer to boot in text terminal and only later, if needed, to move to a graphical interface. Moreover I prefer to choice which desktop environment or window manager to use every time.</p>
+  <p>
+	To do so, I've installed Debian 13 without selecting any desktop environment and without installing X.org, this to ensure to login in text mode.
+	Then I've installed X.org manually and all the window manager and desktop environment I would like to use: fvwm2, OpenStep, XFCE4, etc.
+  </p>  
+  <p>To ensure that the os always start in text mode I've run the following command:</p>
+  <code>sudo systemctl set-default multi-user.target</code>
+  <p>which creates a symbolic link for <tt> /etc/systemd/system/default.target </tt> to <tt> multi-user.target </tt> instead to <tt> graphical.target </tt></p>
   
   <hr>
   
