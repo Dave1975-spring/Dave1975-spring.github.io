@@ -60,11 +60,74 @@
   <p>I still prefer to login in text terminal and only later, if needed, to move to a graphical interface. Moreover I prefer to choice which desktop environment or window manager to use every time. Sometimes I prefer a more comfortable graphical environment, other a more minimalist and essential with no distractions.</p>
   <p>
 	To do so, I've installed Debian 13 without selecting any desktop environment and without installing X.org, this to ensure to login in text mode.
-	Then I've installed X.org manually and all the window manager and desktop environment I would like to use: fvwm2, OpenStep, XFCE4, etc.
+	Then I've installed X.org manually and all the window manager and desktop environment I would like to use: fvwm2, BlackBox, IceWM, WindowMaker, XFCE4 and many others.
   </p>  
   <p>To ensure that linux always start in text mode I've run the following command:</p>
   <code>sudo systemctl set-default multi-user.target</code>
   <p>which creates a symbolic link for <tt> /etc/systemd/system/default.target </tt> to <tt> multi-user.target </tt> instead to <tt> graphical.target </tt></p>
+  
+  <hr>
+  
+  <h3>
+    Starting the graphical session
+  </h3>
+  <p>I like to choose every time the graphical environment to work with. This is one of the several interesting and nice things of linux, not to be stuck on a single specific graphical interface. Anyway I don't like to pass through the display manager, which is itself a graphical environment. I prefer straight call to X server from the terminal.</p>
+  <p>To do so, I've a simple and raw bash script that shows all the desk environment and window managers options and, upon user selection, update the <tt>.xinitrc</tt> file and start the X server.</p>
+  <img src="./x_screenshot.gif" alt="x script screenshot">
+  <p>I've configured different <tt>.xinitrc</tt> file for each DE or WM. Of course some settings are commons among different graphical interfaces. Here below the script that I called just "x":</p>
+  <code>
+<pre>
+#!/bin/bash
+clear 
+echo "Select window manager:"
+OPTIONS="BlackBox OpenBox FluxBox FVWM TWM MWM CDE IceWM i3 XFCE MATE WindowMaker Quit"
+select opt in $OPTIONS; do 
+	if [ "$opt" = "BlackBox" ]; then
+		XINIT_FILE=.xinitrc.bb
+		break 
+	elif [ "$opt" = "FluxBox" ]; then 
+		XINIT_FILE=.xinitrc.fluxbox
+		break 
+	elif [ "$opt" = "OpenBox" ]; then 
+		XINIT_FILE=.xinitrc.openbox
+		break 
+	elif [ "$opt" = "FVWM" ]; then
+		XINIT_FILE=.xinitrc.fvwm
+		break 
+	elif [ "$opt" = "TWM" ]; then 
+		XINIT_FILE=.xinitrc.twm
+		break 
+	elif [ "$opt" = "MWM" ]; then 
+		XINIT_FILE=.xinitrc.mwm 
+		break 
+	elif [ "$opt" = "CDE" ]; then 
+		XINIT_FILE=.xinitrc.cde 
+		break 
+	elif [ "$opt" = "IceWM" ]; then 
+		XINIT_FILE=.xinitrc.icewm 
+		break 
+	elif [ "$opt" = "i3" ]; then 
+		XINIT_FILE=.xinitrc.i3 
+		break 
+	elif [ "$opt" = "XFCE" ]; then 
+		XINIT_FILE=.xinitrc.xfce 
+		break 
+	elif [ "$opt" = "MATE" ]; then 
+		XINIT_FILE=.xinitrc.mate 
+		break 
+	elif [ "$opt" = "WindowMaker" ]; then 
+		XINIT_FILE=.xinitrc.wmaker 
+		break 
+	elif [ "$opt" = "Quit" ]; then 
+		exit 
+	fi 
+done 
+echo "Selected" 
+cp $HOME/$XINIT_FILE $HOME/.xinitrc 
+cat $HOME/.xinitrc 
+startx 
+</pre>
+  </code>
   
   <hr>
   
@@ -74,7 +137,7 @@
   
   <p>Whatever is reported in this webpage is shared under <a href="https://github.com/Dave1975-spring/Dave1975-spring.github.io/blob/main/LICENSE">"The Unlicense"</a> license</p>
 
-  <p>Last update: April 3rd, 2026</p>
+  <p>Last update: April 5th, 2026</p>
   
 </body>
 
