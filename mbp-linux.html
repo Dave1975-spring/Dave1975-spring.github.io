@@ -131,6 +131,43 @@ startx
   
   <hr>
   
+  <h3>
+	  Managing the two GPUs
+  </h3>
+  
+  <p>
+	  The MacBook Pro 5.1, as other from the same era, is equipped with two graphic cards, in particular:
+  </p>
+  
+  <ul>
+	<li>NVIDIA GeForce 9400M with 256 MB of DDR3 SDRAM shared with main memory</li>
+	<li>NVIDIA GeForce 9600M GT with 512 MB of dedicated GDDR3 SDRAM</li>
+  </ul>
+  
+  <p>In Mac OS the choice between the two graphic cards is made within the "power management" section. To swap from one to the other graphic card, the MacBook Pro must reboot. The 9400M is of course less powerfull then the 9600M GT, but consumes less power and heat up much less the PC. For standard activities like web surfing, video watching, etc. the 9400M is more than enough.</p>
+  
+  <p>As soon as linux is installed, at least that's what happened with Debian 13, both graphics cards were powered, while of course only one connected to the display. The result was that both GPU cards were running and processing the data. This is of course an unwanted situation.</p>
+  
+  <p>To check what's the status of the GPUs let's see inside the file "switch" as per the command below:</p>
+  
+  <img src="./both_GPU_power.gif" alt="GPU power terminal">
+  
+  <p>The IGD is the "integrated" card, the 9400N. The DIS is the "discrete" card, the 9600M GT. Acoording to the file content, both are powered since "PWR" appears beside both of them. The "active" one, the one connected to the display, is the one with the "+" sign, so the IGD integrated 9400M card.</p>
+  
+  <p>
+	Fortunately the actual linux kernel is able to manage the presence of more than one GPU via <a href="https://www.kernel.org/doc/html/v4.14/gpu/vga-switcheroo.html"><strong>VGA Switcheroo</strong></a>
+  </p>
+  
+  <p>According to the reference document, to switch OFF the not active card, the OFF signal has to be send. This can be done by appending the OFF command to the file <tt>switch</tt>:</p>
+  
+  <code>echo OFF | sudo tee /sys/kernel/debug/vgaswitcheroo/switch</code>
+  
+  <p>Checking again the GPUs status, now the not active DIS 9600M GT card is no more powered. This solution is not permament and has to be redone at every restart of the PC</p>
+  
+  <img src="./IGD_GPU_power.gif" alt="IGD only power">
+  
+  <hr>
+  
   <p>Still under construction ... <img src="./mamayching_m06picturesconstruct.gif" alt="UNDER CONSTRUCTION"></p>  
 
   <hr>
