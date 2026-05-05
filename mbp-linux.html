@@ -176,6 +176,10 @@ startx
   
   <img src="./IGD_GPU_power.gif" alt="IGD only power">
   
+  <h4>
+	Automatize the service with <i>systemd</i> init system
+  </h4>
+  
   <p>In order to have the service running at boot, a <tt>service</tt> file has to be created and placed, for example, in <tt>/etc/systemd/system</tt> directory.<br>The following file, named <tt>disable-dis-gpu.service</tt>, is an example of service file:</p>
 
   <code>
@@ -197,6 +201,62 @@ startx
   <p>It basically send the OFF command to the <tt>switch</tt> file at startup.</p>
   <p>Different and alternative service files could be setup in order, for example, to run the discrete GPU instead of the integrated one.</p>
   
+  <h4>
+	Automatize the service with <i>sysVinit</i> init system
+  </h4>
+  
+  <p>
+	Here below a service script for the <i>sysVinit</i> system based linux distribution, e.g. AntiX, MX Linux or others. The file has to be put in the <tt>/etc/init.d</tt> folder and then activated, meaning it has to be set executable with the command<br><br>
+	<tt>sudo chmod +755 /etc/init.d/disable-dis-gpu</tt><br><br>
+	and then added to the default runlevels with the command<br><br>
+	<tt>sudo update-rc.d disable-dis-gpu defaults</tt><br><br>
+	
+	With respect to the script for <i>systemd</i>, the following script has also the restart function and the status function, that prompts the content of the "switch" file
+	Here below the script content:
+
+  <code>
+<pre>
+	#!/bin/bash
+	### BEGIN INIT INFO
+	# Provides:          Disable Discrete GPU
+	# Required-Start:    $network
+	# Required-Stop:     $network
+	# Default-Start:     2 3 4 5
+	# Default-Stop:      0 1 6
+	# Short-Description: Disable unused GPU, typically the DIScrete one
+	### END INIT INFO
+
+	case "$1" in
+		start)
+			echo "Starting disable-dis-gpu"
+			echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
+			;;
+		stop)
+			echo "Stopping disable-dis-gpu"
+			# Stop daemon command here
+			;;
+		restart)
+			echo "Restarting disable-dis-gpu"
+			echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
+			;;
+		status)
+			echo "Checking status of disable-dis-gpu"
+			cat /sys/kernel/debug/vgaswitcheroo/switch
+			;;
+		*)
+			echo "Usage: /etc/init.d/disable-dis-gpu {start|stop|restart|status}"
+			exit 1
+			;;
+	esac
+	exit 0
+
+</pre>
+  </code>	
+	
+	 
+  </p>
+  
+  
   <hr>
  
   <h3>
@@ -215,7 +275,7 @@ startx
   <img src="./mbpfan_conf.gif" alt="mbpfan.conf file">
  
   <p>
-	In order to have the deamon starting since the boot, the <tt>mdpfan.service</tt> file is installed, or it should be installed manually in case, in the <tt>/lib/systemd/system</tt> folder.<br>
+	In order to have the deamon starting since the boot, <b>with systemd</b>, the <tt>mdpfan.service</tt> file is installed, or it should be installed manually in case, in the <tt>/lib/systemd/system</tt> folder.<br>
 	The file contest is the following:<br>
 	<code>
 <pre>
